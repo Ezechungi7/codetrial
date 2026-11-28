@@ -499,8 +499,9 @@ pub fn reopen_delivery(
         let moved = connection.execute(
             "
         UPDATE recordings
-        SET state = 'transferring', updated_at = ?2
+        SET state = 'transferring', expires_at = NULL, updated_at = ?2
         WHERE id = ?1 AND state = 'failed' AND error = ?3 AND deleted_at IS NULL
+          AND deleted_by IS NULL
         ",
             (recording_id, clock.now(), Failure::Drive.as_str()),
         )?;

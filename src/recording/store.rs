@@ -24,6 +24,7 @@ pub(super) const SELECT_RECORDING: &str = "
                created_at, updated_at
         FROM recordings
 ";
+pub(super) const RETENTION_EXPIRES_AT: &str = "CASE WHEN state NOT IN ('transferring', 'failed') OR deleted_by = 'operator' THEN expires_at END";
 
 pub(super) fn row_to_recording(row: &rusqlite::Row<'_>) -> rusqlite::Result<Recording> {
     let state: String = row.get(5)?;
